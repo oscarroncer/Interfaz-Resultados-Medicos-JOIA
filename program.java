@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.xml.XMLConstants;
+import javax.xml.crypto.dsig.spec.XPathFilter2ParameterSpec;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -22,17 +23,25 @@ public class program {
     public static void main(String[] args){
         
         Path dir = Paths.get("C:\\Users\\oscar\\Desktop\\PROYECTOS\\PROYECTOS PRODUCION\\PARSER_XML\\XML");
-        //Path[] listadoFilePaths = getFileListPaths(); // iterarems por los paths de este array parseando todos los archivos PREGUNTAR SI SE QUIERE ASI
-
+        
         // nos lanzamos a ver si podemos ejecutar el codigo con un try catch
         try {
 
             // antes de ejecutar veremos si en el path hay algo, si no, no entramos en el programa, no vale la pena si no hay nada
-            if (pathVacio(dir)){    // si recibo true entro y ejecutare el parser, SINTAXIS: lo mismo que *== true
+            if (pathFull(dir)){    // si recibo true entro y ejecutare el parser, SINTAXIS: lo mismo que *== true
 
-                System.err.println("ha entrado donde empezaremos el parser");
+                File[] listadoFilePaths = getFileListPaths(dir); // iterarems por los paths de este array parseando todos los archivos PREGUNTAR SI SE QUIERE ASI
+                System.out.println("ha entrado donde empezaremos el parser ficheros = "+ Integer.toString(listadoFilePaths.length));
                 //ejecutamos funcion del parser
-                XMLParser(dir);
+                for (int i=0;i<listadoFilePaths.length-1;i++){
+                    XMLParser(listadoFilePaths[i]);
+
+                }
+                for (File file : listadoFilePaths) {
+
+                    XMLParser(file);
+                }
+                
 
             }
 
@@ -48,13 +57,13 @@ public class program {
 
     // hacemos un proceso para saber si el path tiene algo, tengo que incorporar buenas practicas pero no
     // acabo de entender asi
-    private static boolean pathVacio(Path dir) throws IOException {
+    private static boolean pathFull(Path dir) throws IOException {
 
         // compruebo si hay algo en el path y devuelvo true
         if (Files.exists(dir) && Files.isDirectory(dir)) {
             
             DirectoryStream<Path> stream = Files.newDirectoryStream(dir);
-            System.err.println("directorio existe");
+            System.out.println("directorio existe");
 
             if (stream.iterator().hasNext()){
                 
@@ -72,37 +81,33 @@ public class program {
     }
 
     // esto tiene que iterar sobre todos los files de el directorio dir en variable global y ir sumando el path en objeto path al array
-    private static Path[] getFileListPaths(Path dir){
+    private static File[] getFileListPaths(Path dir){
             
-        ArrayList<Path> filePaths = new ArrayList<Path>(); //inicializo array donde guardare todos los 
+        File carpeta = dir.toFile(); 
 
+        File[] filePaths = null; // este array lo inicializo fuera para que a devolverlo no me de error en el return
+                                 // por tener el array interno en el try{}
         try {
-
-        DirectoryStream<Path> stream = Files.newDirectoryStream(dir);
         
-        if(stream.iterator().hasNext()){
-
-        }
-        
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        return filePaths.toArray(new Path[0]);
+        filePaths = carpeta.listFiles();
         
 
+        } catch (Exception e) {System.err.println("Error inesperado:"+e);}
+        
+        return filePaths;
 
 
     }
 
     //va a haber que ponerle que se ejecute automaticamente mientras en el archivo haya cosas
-    private static void XMLParser(Path dir){
+    private static void XMLParser(File fileName){
 
         //hay que instanciar los lectores de eventos
         try {
             
         // String file = "C:\\Users\\oscar\\Desktop\\PROYECTOS\\PROYECTOS PRODUCION\\PARSER_XML\\XML\\CT1P.XML";
         XMLInputFactory factory = XMLInputFactory.newInstance();
-        XMLStreamReader reader = factory.createXMLStreamReader(new FileInputStream(file));
+        XMLStreamReader reader = factory.createXMLStreamReader(new FileInputStream(fileName));
 
         //creamos los objetos para darles valor en memoria segun vayamos parseando
         Common common = new Common();
