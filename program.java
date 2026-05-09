@@ -7,6 +7,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.xml.XMLConstants;
@@ -42,7 +43,6 @@ public class program {
                     XMLParser(file);
                 }
                 
-
             }
 
         } catch (Exception e) {
@@ -102,6 +102,8 @@ public class program {
     //va a haber que ponerle que se ejecute automaticamente mientras en el archivo haya cosas
     private static void XMLParser(File fileName){
 
+        Common common = new Common();
+        Patient patient = new Patient(); 
         //hay que instanciar los lectores de eventos
         try {
             
@@ -110,8 +112,7 @@ public class program {
         XMLStreamReader reader = factory.createXMLStreamReader(new FileInputStream(fileName));
 
         //creamos los objetos para darles valor en memoria segun vayamos parseando
-        Common common = new Common();
-        //Patient patient = new Patient(); 
+        
 
         //LOGICA 
 
@@ -163,6 +164,31 @@ public class program {
                                 case "Time": common.setTime(texto);
                                 break;
 
+                                // PATIENT
+
+                                case "No.": patient.setNo(texto);
+                                break;
+
+                                case "ID": patient.setID(texto);
+                                break;
+
+                                case "FirstName": patient.setFirstName(texto);
+                                break;
+
+                                case "MiddleName": patient.setMiddleName(texto);
+                                break;
+
+                                case "LastName": patient.setLastName(texto);
+                                break;
+
+                                case "Sex": patient.setSex(texto);
+                                break;
+
+                                case "Age": patient.setAge(Integer.parseInt(texto));
+                                break;
+
+                                case "DOB": patient.setDOB(LocalDate.parse(texto));
+                                break;
 
                             }
                         }
@@ -170,8 +196,8 @@ public class program {
 
                     case XMLStreamConstants.END_ELEMENT:
                         currentElement = "";        //ponemos la variable currentElement a "" para volver a ejecutar el bucle en
-                                                    //con el siguiente
-                        break;
+                        break;                      //con el siguiente
+                        
                     
                     default:
                         break;
@@ -182,8 +208,11 @@ public class program {
             System.err.println("error en linea 72: " + e);
         }
         finally{
-            
+            // aqui se podria cerrar el reader, pero no se como hacerlo sin que me de error, porque el reader es un objeto local de try
         }
+
+        System.out.println("common = "+ common.toString());
+        System.out.println("patient = "+ patient.toString());
 
 
 
