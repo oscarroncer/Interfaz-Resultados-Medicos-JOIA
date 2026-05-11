@@ -1,3 +1,4 @@
+package structures;
 import java.time.*;
 
 public class Patient {
@@ -13,6 +14,11 @@ public class Patient {
     public LocalDate DOB;
 
     //-------------------------------------------- GETTERS Y SETTERS -----------------------------------------------
+    
+    public Patient getPatient() {
+        System.out.println("Patient: " + this.No + " " + this.ID + " " + this.FirstName + " " + this.MiddleName + " " + this.LastName + " " + this.Sex);
+        return this;
+    }
 
     // No
     public String getNo() {

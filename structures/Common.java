@@ -1,3 +1,4 @@
+package structures;
 public class Common {
 
     // atributos de la clase
@@ -11,6 +12,10 @@ public class Common {
 
     //-------------------------------------------- GETTERS Y SETTERS -----------------------------------------------
 
+    public Common getCommon() {
+        System.out.println("Common: " + this.Company + " " + this.ModelName + " " + this.MachineNo + " " + this.ROMVersion + " " + this.Version + " " + this.Date + " " + this.Time);
+        return this;
+    }
     // Company
     public String getCompany() {
         return this.Company;

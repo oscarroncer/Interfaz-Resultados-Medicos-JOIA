@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import javax.xml.XMLConstants;
 import javax.xml.crypto.dsig.spec.XPathFilter2ParameterSpec;
 import javax.xml.stream.XMLStreamReader;
+
+import structures.Common;
+import structures.Patient;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -33,11 +37,8 @@ public class program {
 
                 File[] listadoFilePaths = getFileListPaths(dir); // iterarems por los paths de este array parseando todos los archivos PREGUNTAR SI SE QUIERE ASI
                 System.out.println("ha entrado donde empezaremos el parser ficheros = "+ Integer.toString(listadoFilePaths.length));
-                //ejecutamos funcion del parser
-                for (int i=0;i<listadoFilePaths.length-1;i++){
-                    XMLParser(listadoFilePaths[i]);
+                //ejecutamos funcion del parser para cada file del array, iterando con un for each
 
-                }
                 for (File file : listadoFilePaths) {
 
                     XMLParser(file);
@@ -104,12 +105,21 @@ public class program {
 
         Common common = new Common();
         Patient patient = new Patient(); 
-        //hay que instanciar los lectores de eventos
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        XMLStreamReader reader = null; // lo inicializo aqui para poder cerrarlo en el finally, aunque no se si es buena practica, pero no se como hacerlo de otra forma
+
+        try {
+            reader = factory.createXMLStreamReader(new FileInputStream(fileName));
+        } catch (Exception e) {
+            System.err.println("Error creando el XMLStreamReader: " + e.getMessage());
+            e.printStackTrace();
+            return; // salimos del método si no podemos crear el reader
+        }
+        
         try {
             
         // String file = "C:\\Users\\oscar\\Desktop\\PROYECTOS\\PROYECTOS PRODUCION\\PARSER_XML\\XML\\CT1P.XML";
-        XMLInputFactory factory = XMLInputFactory.newInstance();
-        XMLStreamReader reader = factory.createXMLStreamReader(new FileInputStream(fileName));
+
 
         //creamos los objetos para darles valor en memoria segun vayamos parseando
         
@@ -198,7 +208,6 @@ public class program {
                         currentElement = "";        //ponemos la variable currentElement a "" para volver a ejecutar el bucle en
                         break;                      //con el siguiente
                         
-                    
                     default:
                         break;
                 }
@@ -208,11 +217,21 @@ public class program {
             System.err.println("error en linea 72: " + e);
         }
         finally{
+
+            if (reader != null){
+                try {
+                    reader.close();
+                } catch (XMLStreamException e) {
+                    System.err.println("Error cerrando el reader: " + e.getMessage());
+                }
+                
+            }
             // aqui se podria cerrar el reader, pero no se como hacerlo sin que me de error, porque el reader es un objeto local de try
         }
 
-        System.out.println("common = "+ common.toString());
-        System.out.println("patient = "+ patient.toString());
+        System.out.println("common = "+ common.getCommon());
+        System.out.println("patient = "+ patient.getPatient());
+
 
 
 
