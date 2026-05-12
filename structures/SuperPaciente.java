@@ -1,8 +1,8 @@
 package structures;
 
-import structures.structs.Common;
-import structures.structs.Eye;
-import structures.structs.Patient;
+import structures.POJOS.Common;
+import structures.POJOS.Eye;
+import structures.POJOS.Patient;
 
 public class SuperPaciente {
 
@@ -12,7 +12,38 @@ public class SuperPaciente {
     public Eye leftEye;
     public Eye rightEye;
 
+    // Getters and Setters
 
+    public Common getCommon() {
+        return common;
+    }
 
+    public void setCommon(Common common) {
+        this.common = common;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Eye getLeftEye() {
+        return leftEye;
+    }
+
+    public void setLeftEye(Eye leftEye) {
+        this.leftEye = leftEye;
+    }
+
+    public Eye getRightEye() {
+        return rightEye;
+    }
+
+    public void setRightEye(Eye rightEye) {
+        this.rightEye = rightEye;
+    }
     
 }

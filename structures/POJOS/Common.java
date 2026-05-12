@@ -1,4 +1,4 @@
-package structures.structs;
+package structures.POJOS;
 
 public class Common {
 

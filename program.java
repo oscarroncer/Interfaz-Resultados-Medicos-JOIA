@@ -13,8 +13,9 @@ import javax.xml.XMLConstants;
 import javax.xml.crypto.dsig.spec.XPathFilter2ParameterSpec;
 import javax.xml.stream.XMLStreamReader;
 
-import structures.structs.Common;
-import structures.structs.Patient;
+import structures.*;
+import structures.POJOS.Common;
+import structures.POJOS.Patient;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;

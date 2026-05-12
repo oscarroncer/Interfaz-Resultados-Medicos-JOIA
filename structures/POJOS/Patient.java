@@ -1,4 +1,4 @@
-package structures.structs;
+package structures.POJOS;
 import java.time.*;
 
 public class Patient {
