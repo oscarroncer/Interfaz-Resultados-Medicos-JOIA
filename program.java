@@ -1,7 +1,6 @@
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -14,8 +13,8 @@ import javax.xml.XMLConstants;
 import javax.xml.crypto.dsig.spec.XPathFilter2ParameterSpec;
 import javax.xml.stream.XMLStreamReader;
 
-import structures.Common;
-import structures.Patient;
+import structures.structs.Common;
+import structures.structs.Patient;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;

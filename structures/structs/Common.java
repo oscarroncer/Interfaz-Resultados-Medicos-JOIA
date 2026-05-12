@@ -1,4 +1,5 @@
-package structures;
+package structures.structs;
+
 public class Common {
 
     // atributos de la clase

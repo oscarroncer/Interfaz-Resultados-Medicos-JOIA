@@ -1,4 +1,4 @@
-package structures;
+package structures.unidadesInfo;
 public class TMList {
 
     public Double IOP_mmHg;

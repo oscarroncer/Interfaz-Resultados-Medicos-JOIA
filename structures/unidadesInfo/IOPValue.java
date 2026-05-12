@@ -1,4 +1,5 @@
-package structures;
+package structures.unidadesInfo;
+
 public class IOPValue {
 
     public Double IOP_mmHg;

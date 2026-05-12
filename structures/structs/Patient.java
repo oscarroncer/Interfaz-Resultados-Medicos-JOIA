@@ -1,4 +1,4 @@
-package structures;
+package structures.structs;
 import java.time.*;
 
 public class Patient {
