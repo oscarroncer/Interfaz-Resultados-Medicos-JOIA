@@ -7,13 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import javax.xml.XMLConstants;
 import javax.xml.crypto.dsig.spec.XPathFilter2ParameterSpec;
 import javax.xml.stream.XMLStreamReader;
 
-import structures.*;
+import structures.SuperPaciente;
 import structures.POJOS.Common;
 import structures.POJOS.Patient;
 
@@ -103,8 +102,15 @@ public class program {
     //va a haber que ponerle que se ejecute automaticamente mientras en el archivo haya cosas
     private static void XMLParser(File fileName){
 
-        Common common = new Common();
-        Patient patient = new Patient(); 
+        //instanciamos un objeto super paciente donde guardaremos toda la informacion del archivo, para
+        // tratarlo como objeto superPaciente al enviarlo al frontend, 
+        // y no tener que enviar cada parte por separado, aunque se podria hacer asi tambien, pero creo que es mas limpio asi.
+
+        SuperPaciente superPaciente = new SuperPaciente();
+
+        //Common common = new Common();
+        //Patient patient = new Patient(); 
+        
         XMLInputFactory factory = XMLInputFactory.newInstance();
         XMLStreamReader reader = null; // lo inicializo aqui para poder cerrarlo en el finally, aunque no se si es buena practica, pero no se como hacerlo de otra forma
 
@@ -118,12 +124,6 @@ public class program {
         
         try {
             
-        // String file = "C:\\Users\\oscar\\Desktop\\PROYECTOS\\PROYECTOS PRODUCION\\PARSER_XML\\XML\\CT1P.XML";
-
-
-        //creamos los objetos para darles valor en memoria segun vayamos parseando
-        
-
         //LOGICA 
 
         // aqui guardaremos lo que estamos trabajando, dandole el valor de START_ELEMENT a esta variable
@@ -153,51 +153,51 @@ public class program {
                             switch(currentElement){
 
                                 //los casos posibles de common
-                                case "Company": common.setCompany(texto);
+                                case "Company": superPaciente.common.setCompany(texto);
                                 break;
 
-                                case "ModelName": common.setModelName(texto);
+                                case "ModelName": superPaciente.common.setModelName(texto);
                                 break;
 
-                                case "MachineNo": common.setMachineNo(texto);
+                                case "MachineNo": superPaciente.common.setMachineNo(texto);
                                 break;
 
-                                case "ROMVersion": common.setROMVersion(texto);
+                                case "ROMVersion": superPaciente.common.setROMVersion(texto);
                                 break;
 
-                                case "Version": common.setVersion(texto);
+                                case "Version": superPaciente.common.setVersion(texto);
                                 break;
 
-                                case "Date": common.setDate(texto);
+                                case "Date": superPaciente.common.setDate(texto);
                                 break;
                                 
-                                case "Time": common.setTime(texto);
+                                case "Time": superPaciente.common.setTime(texto);
                                 break;
 
                                 // PATIENT
 
-                                case "No.": patient.setNo(texto);
+                                case "No.": superPaciente.patient.setNo(texto);
                                 break;
 
-                                case "ID": patient.setID(texto);
+                                case "ID": superPaciente.patient.setID(texto);
                                 break;
 
-                                case "FirstName": patient.setFirstName(texto);
+                                case "FirstName": superPaciente.patient.setFirstName(texto);
                                 break;
 
-                                case "MiddleName": patient.setMiddleName(texto);
+                                case "MiddleName": superPaciente.patient.setMiddleName(texto);
                                 break;
 
-                                case "LastName": patient.setLastName(texto);
+                                case "LastName": superPaciente.patient.setLastName(texto);
                                 break;
 
-                                case "Sex": patient.setSex(texto);
+                                case "Sex": superPaciente.patient.setSex(texto);
                                 break;
 
-                                case "Age": patient.setAge(Integer.parseInt(texto));
+                                case "Age": superPaciente.patient.setAge(Integer.parseInt(texto));
                                 break;
 
-                                case "DOB": patient.setDOB(LocalDate.parse(texto));
+                                case "DOB": superPaciente.patient.setDOB(LocalDate.parse(texto));
                                 break;
 
                             }
@@ -229,8 +229,8 @@ public class program {
             // aqui se podria cerrar el reader, pero no se como hacerlo sin que me de error, porque el reader es un objeto local de try
         }
 
-        System.out.println("common = "+ common.toString());
-        System.out.println("patient = "+ patient.toString());
+        System.out.println("common = "+ superPaciente.common.toString());
+        System.out.println("patient = "+ superPaciente.patient.toString());
 
 
 
