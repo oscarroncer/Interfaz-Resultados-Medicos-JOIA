@@ -4,9 +4,12 @@ public class IOPValue {
 
     public Double IOP_mmHg;
     public Double IOP_Pa;
-
-    public String getIOPValueString() {
-        return "IOPValue{" + "IOP_mmHg = " + IOP_mmHg + ", IOP_Pa = " + IOP_Pa + '}';
+    
+    @Override
+    public String toString() {
+        return "IOPValue{" + 
+        "IOP_mmHg = " + IOP_mmHg + 
+        ", IOP_Pa = " + IOP_Pa + '}';
     }
 
     public Double getIOP_mmHg() {

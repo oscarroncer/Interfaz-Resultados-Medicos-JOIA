@@ -1,8 +1,5 @@
 package structures.POJOS;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import structures.pruebas.*;
 
 public class Eye {
@@ -15,10 +12,30 @@ public class Eye {
     public TM TM;
     public CorrectedIOP correctedIOP;
     
+    // Getters y Setters
 
+    public lado getLadoOjo() {
+        return ladoOjo;
+    }
 
+    public void setLadoOjo(lado ladoOjo) {
+        this.ladoOjo = ladoOjo;
+    }
 
+    public TM getTM() {
+        return TM;
+    }
 
+    public void setTM(TM TM) {
+        this.TM = TM;
+    }
 
+    public CorrectedIOP getCorrectedIOP() {
+        return correctedIOP;
+    }
+
+    public void setCorrectedIOP(CorrectedIOP correctedIOP) {
+        this.correctedIOP = correctedIOP;
+    }
     
 }

@@ -24,6 +24,10 @@ public class CorrectedIOP {
         return Param2;
     }
 
+    public void setParam2(String Param2) {
+        this.Param2 = Param2;
+    }
+
     public String getCCT() {
         return CCT;
     }

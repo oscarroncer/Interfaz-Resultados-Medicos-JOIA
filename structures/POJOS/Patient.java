@@ -10,14 +10,23 @@ public class Patient {
     public String MiddleName;
     public String LastName;
     public String Sex;
-    public int Age;
+    public Integer Age;
     public LocalDate DOB;
 
     //-------------------------------------------- GETTERS Y SETTERS -----------------------------------------------
     
-    public Patient getPatient() {
-        System.out.println("Patient: " + this.No + " " + this.ID + " " + this.FirstName + " " + this.MiddleName + " " + this.LastName + " " + this.Sex);
-        return this;
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "No='" + No + '\'' +
+                ", ID='" + ID + '\'' +
+                ", FirstName='" + FirstName + '\'' +
+                ", MiddleName='" + MiddleName + '\'' +
+                ", LastName='" + LastName + '\'' +
+                ", Sex='" + Sex + '\'' +
+                ", Age=" + Age +
+                ", DOB=" + DOB +
+                '}';
     }
 
     // No

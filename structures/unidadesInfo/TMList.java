@@ -5,7 +5,8 @@ public class TMList {
     public Double IOP_Pa;
     public Double ConfidenceIndex;
 
-    public String getListString() {
+    @Override
+    public String toString() {
         return "TMList{" + "IOP_mmHg = " + IOP_mmHg + ", IOP_Pa = " + IOP_Pa + ", ConfidenceIndex = " + ConfidenceIndex + '}';
     }
 

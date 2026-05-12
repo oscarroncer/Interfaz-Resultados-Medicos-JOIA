@@ -229,8 +229,8 @@ public class program {
             // aqui se podria cerrar el reader, pero no se como hacerlo sin que me de error, porque el reader es un objeto local de try
         }
 
-        System.out.println("common = "+ common.getCommon());
-        System.out.println("patient = "+ patient.getPatient());
+        System.out.println("common = "+ common.toString());
+        System.out.println("patient = "+ patient.toString());
 
 
 

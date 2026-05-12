@@ -13,9 +13,17 @@ public class Common {
 
     //-------------------------------------------- GETTERS Y SETTERS -----------------------------------------------
 
-    public Common getCommon() {
-        System.out.println("Common: " + this.Company + " " + this.ModelName + " " + this.MachineNo + " " + this.ROMVersion + " " + this.Version + " " + this.Date + " " + this.Time);
-        return this;
+    @Override
+    public String toString() {
+        return "Common{" +
+                "Company='" + Company + '\'' +
+                ", ModelName='" + ModelName + '\'' +
+                ", MachineNo='" + MachineNo + '\'' +
+                ", ROMVersion='" + ROMVersion + '\'' +
+                ", Version='" + Version + '\'' +
+                ", Date='" + Date + '\'' +
+                ", Time='" + Time + '\'' +
+                '}';
     }
     // Company
     public String getCompany() {
