@@ -8,13 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 
-import javax.xml.XMLConstants;
-import javax.xml.crypto.dsig.spec.XPathFilter2ParameterSpec;
 import javax.xml.stream.XMLStreamReader;
 
 import structures.SuperPaciente;
-import structures.POJOS.Common;
-import structures.POJOS.Patient;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -130,7 +126,11 @@ public class program {
         // para que cuando llegue el CHARACTER sepamos a que atributo (porque tendra el valor de START_ELEMENT) 
         // le daremos el valor de CHARACTER
 
+        //variables de contexto, para saber el lado del ojo y guardarlo y el tipo de prueba y tambien guardarlo
+
         String currentElement = "";
+        String prueba = "";
+        String ladoOjo
             
             while (reader.hasNext()) {
 
@@ -152,53 +152,60 @@ public class program {
                             // problema si hubiera campos repetidos, pero creo que no hay en XML
                             switch(currentElement){
 
+                                //trabajamos accediendo al atributo en vez de al getter o setter
+                                //ya que todos los atributos son publicos, aunque no es buena practica, pero es mas rapido y limpio que hacer 
+                                //un switch para cada campo con su getter o setter, aunque se podria hacer asi tambien, pero creo que es mas 
+                                //limpio asi, pero es mas rapido y limpio que hacer un switch para cada campo con su getter o setter, aunque
+                                //se podria hacer asi tambien, pero creo que es mas limpio asi
+
                                 //los casos posibles de common
-                                case "Company": superPaciente.common.setCompany(texto);
+                                case "Company": superPaciente.common.Company = texto;
                                 break;
 
-                                case "ModelName": superPaciente.common.setModelName(texto);
+                                case "ModelName": superPaciente.common.ModelName = texto;
                                 break;
 
-                                case "MachineNo": superPaciente.common.setMachineNo(texto);
+                                case "MachineNo": superPaciente.common.MachineNo = texto;
                                 break;
 
-                                case "ROMVersion": superPaciente.common.setROMVersion(texto);
+                                case "ROMVersion": superPaciente.common.ROMVersion = texto;
                                 break;
 
-                                case "Version": superPaciente.common.setVersion(texto);
+                                case "Version": superPaciente.common.Version = texto;
                                 break;
 
-                                case "Date": superPaciente.common.setDate(texto);
+                                case "Date": superPaciente.common.Date = texto;
                                 break;
                                 
-                                case "Time": superPaciente.common.setTime(texto);
+                                case "Time": superPaciente.common.Time = texto;
                                 break;
 
-                                // PATIENT
+                                // PATIENT 
 
-                                case "No.": superPaciente.patient.setNo(texto);
+                                case "No.": superPaciente.patient.No = texto;
                                 break;
 
-                                case "ID": superPaciente.patient.setID(texto);
+                                case "ID": superPaciente.patient.ID = texto;
                                 break;
 
-                                case "FirstName": superPaciente.patient.setFirstName(texto);
+                                case "FirstName": superPaciente.patient.FirstName = texto;
                                 break;
 
-                                case "MiddleName": superPaciente.patient.setMiddleName(texto);
+                                case "MiddleName": superPaciente.patient.MiddleName = texto;
                                 break;
 
-                                case "LastName": superPaciente.patient.setLastName(texto);
+                                case "LastName": superPaciente.patient.LastName = texto;
                                 break;
 
-                                case "Sex": superPaciente.patient.setSex(texto);
+                                case "Sex": superPaciente.patient.Sex = texto;
                                 break;
 
-                                case "Age": superPaciente.patient.setAge(Integer.parseInt(texto));
+                                case "Age": superPaciente.patient.Age = Integer.parseInt(texto);
                                 break;
 
-                                case "DOB": superPaciente.patient.setDOB(LocalDate.parse(texto));
+                                case "DOB": superPaciente.patient.DOB = LocalDate.parse(texto);
                                 break;
+
 
                             }
                         }

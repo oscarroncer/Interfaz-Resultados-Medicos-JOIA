@@ -10,45 +10,19 @@ public class CorrectedIOP {
     public IOPValue measured;
     public IOPValue corrected;
 
-    // Getters and Setters
-
-    public String getParam1() {
-        return Param1;
+    @Override
+    public String toString(){
+        
+        String CorrectedIOPListado = "Common{" +
+                "Param1 = '" + Param1 + '\'' +
+                ", Param2 = '" + Param2 + '\'' +
+                ", CCT = '" + CCT + '\'' +
+                ", measured = '" + measured.toString() + '\'' +
+                ", corrected = '" + corrected.toString() + '\'' +
+                '}';
+    
+        
+        return CorrectedIOPListado;
     }
 
-    public void setParam1(String Param1) {
-        this.Param1 = Param1;
-    }
-
-    public String getParam2() {
-        return Param2;
-    }
-
-    public void setParam2(String Param2) {
-        this.Param2 = Param2;
-    }
-
-    public String getCCT() {
-        return CCT;
-    }
-
-    public void setCCT(String CCT) {
-        this.CCT = CCT;
-    }
-
-    public IOPValue getMeasured(){
-        return this.measured;
-    }
-
-    public void setMeasured(IOPValue measured) {
-        this.measured = measured;
-    }
-
-    public IOPValue getCorrected(){
-        return this.corrected;
-    }
-
-    public void setCorrected(IOPValue corrected) {
-        this.corrected = corrected;
-    }
 }
