@@ -7,10 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamReader;
 
 import structures.SuperPaciente;
+import structures.pruebas.CorrectedIOP;
+import structures.unidadesInfo.TMList;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -126,11 +129,14 @@ public class program {
         // para que cuando llegue el CHARACTER sepamos a que atributo (porque tendra el valor de START_ELEMENT) 
         // le daremos el valor de CHARACTER
 
-        //variables de contexto, para saber el lado del ojo y guardarlo y el tipo de prueba y tambien guardarlo
+        //variables de contexto, para saber el lado del ojo y guardarlo y el tipo de pruebaCurrent y tambien guardarlo
 
         String currentElement = "";
-        String prueba = "";
-        String ladoOjo
+        String pruebaCurrent = "";
+        String ladoOjoCurrent = "";
+
+        ArrayList<TMList> lecturasCurrent = new ArrayList<TMList>();
+        
             
             while (reader.hasNext()) {
 
@@ -140,12 +146,23 @@ public class program {
                 // ESTE SWITCH VA A INDETIFICAR EL TIPO DE EVENTO Y ACTUARA SEGUN 
                 switch (evento) {
                     case XMLStreamConstants.START_ELEMENT:
+
                         currentElement =   reader.getLocalName(); //en este caso guardo el START_ELEMENT en current element, 
+                        
+                        //cascada de condicionales para las variables de entorno
+                        //pruebaCurrent
+                        if (reader.getLocalName() == "TM"){pruebaCurrent = "TM";}
+                        if (reader.getLocalName() == "CorrectedIOP"){pruebaCurrent = "CorrectedIOP";}
+
+                        //ladoOjoCurrent
+                        if (reader.getLocalName() == "R"){ladoOjoCurrent = "R";}
+                        if (reader.getLocalName() == "L"){ladoOjoCurrent = "L";}
+
                         break;
                     
                     case XMLStreamConstants.CHARACTERS:
+
                         String texto = reader.getText().trim(); //estas funcionas consiguen el texto de CHARACTERS limpio para guardarlo
-                        
                         if (!texto.isEmpty()){
 
                             // hay que hacer que segun el campo que sea se guarde en el setter adecuado
@@ -206,14 +223,66 @@ public class program {
                                 case "DOB": superPaciente.patient.DOB = LocalDate.parse(texto);
                                 break;
 
+                                //entramos en measure
+
+                                //empezamos a rellenar de lo mas pequeño a lo mas grande en este caso
+                                case "List": 
+                                
+                                //aqui actuaremos si es ojoDerecho
+                                if(ladoOjoCurrent == "R"){
+                                    switch (pruebaCurrent) {
+                                        case "TM":
+                                            //inicialioo una lista que se añadira al arrayList lecturasCurrent, para asignar esa lista a superPaciente luego
+                                            TMList listita = new TMList();
+                                            reader.next();
+                                            listita.IOP_mmHg = reader.getText().trim();
+                                            lecturasCurrent.add(listita);
+                                            break;
+                                    
+                                        case "CorrectedIOP":
+                                            
+                                            break;
+                                        
+                                        default:
+                                            break;
+                                    }
+                                }
+                                
+                                //aqui actuaremos si es ojoIzquierdo
+                                if(ladoOjoCurrent == "L"){
+                                    switch (pruebaCurrent) {
+                                        case "TM":
+                                            
+
+                                            break;
+                                    
+                                        default:
+                                            break;
+                                    }
+                                }
+
+
+
 
                             }
                         }
                         break;
 
                     case XMLStreamConstants.END_ELEMENT:
-                        currentElement = "";        //ponemos la variable currentElement a "" para volver a ejecutar el bucle en
-                        break;                      //con el siguiente
+                        currentElement = "";   //ponemos la variable currentElement a "" para volver a ejecutar el bucle en
+                                                //con el siguiente
+                        
+                        // en este condicional estamos haciendo todas las situaciones donde hay que resetear las variables de entorno
+                        if (reader.getLocalName() == "TM" || reader.getLocalName() == "CorrectedIOP")
+                        {
+                             pruebaCurrent = "";
+                        }
+                        else if(reader.getLocalName() == "R" || reader.getLocalName() == "L")
+                        {
+                            ladoOjoCurrent = "";
+                        }
+
+                        break;                 
                         
                     default:
                         break;

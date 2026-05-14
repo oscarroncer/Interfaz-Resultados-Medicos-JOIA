@@ -1,5 +1,6 @@
 package structures.pruebas;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import structures.unidadesInfo.TMList;
 
@@ -9,21 +10,15 @@ public class TM {
     public ArrayList<TMList> lecturas = new ArrayList<TMList>();
     public TMList media;
 
-    // getters y setters
-    public ArrayList<TMList> getLecturas() {
-        return lecturas;
-    }
+    // @Override
+    // public String toString(){
 
-    public void setLecturas(ArrayList<TMList> lecturas) {
-        this.lecturas = lecturas;
-    }
+    //     String[] lecturasCurrentStrings = {};
 
-    public TMList getMedia() {
-        return media;
-    }
-
-    public void setMedia(TMList media) {
-        this.media = media;
-    }
+    //     for (TMList tmList : lecturas) {
+    //         lecturasCurrentStrings = lecturasCurrentStrings + tmList.toString();
+    //     }
+        
+    // }
     
 }

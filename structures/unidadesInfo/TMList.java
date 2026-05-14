@@ -1,9 +1,9 @@
 package structures.unidadesInfo;
 public class TMList {
 
-    public Double IOP_mmHg;
-    public Double IOP_Pa;
-    public Double ConfidenceIndex;
+    public String IOP_mmHg;
+    public String IOP_Pa;
+    public String ConfidenceIndex;
 
     @Override
     public String toString() {
