@@ -229,7 +229,7 @@ public class program {
                                 case "List": 
                                 
                                 //aqui actuaremos si es ojoDerecho
-                                if(ladoOjoCurrent == "R"){
+                                if("R".equals(ladoOjoCurrent)){
                                     switch (pruebaCurrent) {
                                         case "TM":
                                             //inicialioo una lista que se añadira al arrayList lecturasCurrent, para asignar esa lista a superPaciente luego
@@ -249,7 +249,7 @@ public class program {
                                 }
                                 
                                 //aqui actuaremos si es ojoIzquierdo
-                                if(ladoOjoCurrent == "L"){
+                                if("L".equals(ladoOjoCurrent)){
                                     switch (pruebaCurrent) {
                                         case "TM":
                                             
@@ -262,8 +262,6 @@ public class program {
                                 }
 
 
-
-
                             }
                         }
                         break;
@@ -273,11 +271,11 @@ public class program {
                                                 //con el siguiente
                         
                         // en este condicional estamos haciendo todas las situaciones donde hay que resetear las variables de entorno
-                        if (reader.getLocalName() == "TM" || reader.getLocalName() == "CorrectedIOP")
+                        if ("TM".equals(reader.getLocalName()) || "CorrectedIOP".equals(reader.getLocalName()))
                         {
                              pruebaCurrent = "";
                         }
-                        else if(reader.getLocalName() == "R" || reader.getLocalName() == "L")
+                        else if( "R".equals(reader.getLocalName()) || "R".equals(reader.getLocalName()) )
                         {
                             ladoOjoCurrent = "";
                         }
