@@ -2,8 +2,15 @@ package structures.unidadesInfo;
 
 public class IOPValue {
 
-    public Double IOP_mmHg;
-    public Double IOP_Pa;
+    public String IOP_mmHg;
+    public String IOP_Pa;
+    
+    public IOPValue (String IOP_mmHg, String IOP_Pa)
+    {
+        this.IOP_mmHg = IOP_mmHg;
+        this.IOP_Pa = IOP_Pa;
+    }
+
     
     @Override
     public String toString() {

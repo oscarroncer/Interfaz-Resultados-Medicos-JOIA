@@ -14,12 +14,13 @@ import javax.xml.stream.XMLStreamReader;
 import structures.SuperPaciente;
 import structures.pruebas.CorrectedIOP;
 import structures.unidadesInfo.TMList;
+import structures.unidadesInfo.IOPValue;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 
-public class program {
+public class Program {
 
     // en este metodo voy a hacer el flujo del programa, externalizando en funciones el parse, y la comprobacion de si 
     // el dir esta vacio o no
@@ -107,6 +108,16 @@ public class program {
 
         SuperPaciente superPaciente = new SuperPaciente();
 
+        String currentElement = "";
+        String pruebaCurrent = "";
+        String ladoOjoCurrent = "";
+        String tipoIOPValue = "";
+        
+
+        ArrayList<TMList> lecturasCurrent = new ArrayList<TMList>();
+        TMList listaCurrent = null;
+        IOPValue IOPValueCurrent = null;
+
         //Common common = new Common();
         //Patient patient = new Patient(); 
         
@@ -130,13 +141,6 @@ public class program {
         // le daremos el valor de CHARACTER
 
         //variables de contexto, para saber el lado del ojo y guardarlo y el tipo de pruebaCurrent y tambien guardarlo
-
-        String currentElement = "";
-        String pruebaCurrent = "";
-        String ladoOjoCurrent = "";
-
-        ArrayList<TMList> lecturasCurrent = new ArrayList<TMList>();
-        
             
             while (reader.hasNext()) {
 
@@ -147,18 +151,25 @@ public class program {
                 switch (evento) {
                     case XMLStreamConstants.START_ELEMENT:
 
-                        currentElement =   reader.getLocalName(); //en este caso guardo el START_ELEMENT en current element, 
+                        currentElement =  reader.getLocalName(); //en este caso guardo el START_ELEMENT en current element, 
                         
                         //cascada de condicionales para las variables de entorno
                         //pruebaCurrent
-                        if (reader.getLocalName() == "TM"){pruebaCurrent = "TM";}
-                        if (reader.getLocalName() == "CorrectedIOP"){pruebaCurrent = "CorrectedIOP";}
+                        if ("TM".equals(reader.getLocalName())){pruebaCurrent = "TM";}
+                        if ("CorrectedIOP".equals(reader.getLocalName())){pruebaCurrent = "CorrectedIOP";}
 
                         //ladoOjoCurrent
-                        if (reader.getLocalName() == "R"){ladoOjoCurrent = "R";}
-                        if (reader.getLocalName() == "L"){ladoOjoCurrent = "L";}
+                        if ("R".equals(reader.getLocalName())){ladoOjoCurrent = "R";}
+                        if ("L".equals(reader.getLocalName())){ladoOjoCurrent = "L";}
 
-                        break;
+                        //iniciamos TMList si vemos una lista
+                        if ("List".equals(reader.getLocalName())){listaCurrent = new TMList("","","");}
+                        
+                        //iniciamos IOPValue si vemos que hay algun caso en el que se use
+                        if ("Corrected".equals(reader.getLocalName()) 
+                            || "Measured".equals(reader.getLocalName())){IOPValueCurrent = new IOPValue("","");}
+
+                    break;
                     
                     case XMLStreamConstants.CHARACTERS:
 
@@ -223,43 +234,40 @@ public class program {
                                 case "DOB": superPaciente.patient.DOB = LocalDate.parse(texto);
                                 break;
 
-                                //entramos en measure
+                                //Aqui Guardamos todo lo de TMList
 
-                                //empezamos a rellenar de lo mas pequeño a lo mas grande en este caso
-                                case "List": 
-                                
-                                //aqui actuaremos si es ojoDerecho
-                                if("R".equals(ladoOjoCurrent)){
-                                    switch (pruebaCurrent) {
-                                        case "TM":
-                                            //inicialioo una lista que se añadira al arrayList lecturasCurrent, para asignar esa lista a superPaciente luego
-                                            TMList listita = new TMList();
-                                            reader.next();
-                                            listita.IOP_mmHg = reader.getText().trim();
-                                            lecturasCurrent.add(listita);
-                                            break;
-                                    
-                                        case "CorrectedIOP":
-                                            
-                                            break;
-                                        
-                                        default:
-                                            break;
-                                    }
-                                }
-                                
-                                //aqui actuaremos si es ojoIzquierdo
-                                if("L".equals(ladoOjoCurrent)){
-                                    switch (pruebaCurrent) {
-                                        case "TM":
-                                            
+                                case "IOP_mmHg": 
 
-                                            break;
-                                    
-                                        default:
-                                            break;
+                                    switch (pruebaCurrent)
+                                    {
+                                        case "TM": listaCurrent.IOP_mmHg = texto;
+                                        break;
+
+                                        case "CorrectedIOP" : IOPValueCurrent.IOP_mmHg = texto;
+                                        break;
                                     }
-                                }
+
+                                break;
+
+                                case "IOP_Pa":        
+                                
+                                    switch (pruebaCurrent)
+                                    {
+                                        case "TM": listaCurrent.IOP_Pa = texto;
+                                        break;
+
+                                        case "CorrectedIOP" : IOPValueCurrent.IOP_Pa = texto;
+                                        break;
+                                    }
+
+                                break;  
+                                
+                                case "ConfidenceIndex": listaCurrent.ConfidenceIndex = texto;
+                                break;
+                               
+
+
+                                
 
 
                             }
@@ -275,9 +283,48 @@ public class program {
                         {
                              pruebaCurrent = "";
                         }
-                        else if( "R".equals(reader.getLocalName()) || "R".equals(reader.getLocalName()) )
+                        else if( "R".equals(reader.getLocalName()) || "L".equals(reader.getLocalName()) )
                         {
+                            switch (pruebaCurrent)
+                            {
+                                case "TM":
+                                    
+                                    if ("R".equals(reader.getLocalName()))
+                                    {
+                                        superPaciente.rightEye.TM.lecturas = lecturasCurrent;
+                                    }
+                                    else if ("L".equals(reader.getLocalName()))
+                                    {
+                                        superPaciente.leftEye.TM.lecturas = lecturasCurrent;
+                                    }
+                                
+                                break;
+
+                                case "CorrectedIOP":
+
+                                    if ("R".equals(reader.getLocalName()))
+                                    {
+                                        
+                                    }
+                                    else if ("L".equals(reader.getLocalName()))
+                                    {
+                                        
+                                    }
+                                
+                            }
+
                             ladoOjoCurrent = "";
+                        }
+                        else if ("List".equals(reader.getLocalName()))
+                        {
+                            lecturasCurrent.add(listaCurrent);
+
+                            listaCurrent = null;
+                        }
+                        else if ("Corrected".equals(reader.getLocalName()) 
+                            || "Measured".equals(reader.getLocalName()))
+                        {
+                            IOPValueCurrent = null;
                         }
 
                         break;                 
