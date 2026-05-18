@@ -8,7 +8,7 @@ public class TM {
 
     //atributos de la clase
     public ArrayList<TMList> lecturas = new ArrayList<TMList>();
-    public TMList media;
+    public TMList media = new TMList(null, null, null);
 
     // @Override
     // public String toString(){

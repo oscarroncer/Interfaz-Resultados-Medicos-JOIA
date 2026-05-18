@@ -1,17 +1,16 @@
 package structures.POJOS;
-import java.time.*;
 
 public class Patient {
     
     // atributos de la clase
-    public String No;
-    public String ID;
-    public String FirstName;
-    public String MiddleName;
-    public String LastName;
-    public String Sex;
-    public Integer Age;
-    public LocalDate DOB;
+    public String No = new String();
+    public String ID= new String();
+    public String FirstName = new String();
+    public String MiddleName = new String();
+    public String LastName = new String();
+    public String Sex = new String();
+    public String Age = new String();
+    public String DOB = new String();
 
     //-------------------------------------------- GETTERS Y SETTERS -----------------------------------------------
     

@@ -4,11 +4,11 @@ import structures.unidadesInfo.IOPValue;
 
 public class CorrectedIOP {
 
-    public String Param1;
-    public String Param2;   
-    public String CCT;
-    public IOPValue measured;
-    public IOPValue corrected;
+    public String Param1 = new String();
+    public String Param2 = new String();   
+    public String CCT = new String();
+    public IOPValue measured = new IOPValue(null, null);
+    public IOPValue corrected = new IOPValue(null, null);
 
     @Override
     public String toString(){

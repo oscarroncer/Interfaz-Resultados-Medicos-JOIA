@@ -228,10 +228,10 @@ public class Program {
                                 case "Sex": superPaciente.patient.Sex = texto;
                                 break;
 
-                                case "Age": superPaciente.patient.Age = Integer.parseInt(texto);
+                                case "Age": superPaciente.patient.Age = texto;
                                 break;
 
-                                case "DOB": superPaciente.patient.DOB = LocalDate.parse(texto);
+                                case "DOB": superPaciente.patient.DOB = texto;
                                 break;
 
                                 //Aqui Guardamos todo lo de TMList
@@ -304,7 +304,7 @@ public class Program {
 
                                     if ("R".equals(reader.getLocalName()))
                                     {
-                                        
+
                                     }
                                     else if ("L".equals(reader.getLocalName()))
                                     {
@@ -347,6 +347,7 @@ public class Program {
                 }
                 
             }
+            
             // aqui se podria cerrar el reader, pero no se como hacerlo sin que me de error, porque el reader es un objeto local de try
         }
 

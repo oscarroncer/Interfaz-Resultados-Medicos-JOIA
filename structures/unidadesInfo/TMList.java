@@ -1,9 +1,9 @@
 package structures.unidadesInfo;
 public class TMList {
 
-    public String IOP_mmHg;
-    public String IOP_Pa;
-    public String ConfidenceIndex;
+    public String IOP_mmHg = new String();
+    public String IOP_Pa = new String();
+    public String ConfidenceIndex = new String();
 
     //Constructor
     public TMList(String IOP_mmHg, String IOP_Pa, String ConfidenceIndex)

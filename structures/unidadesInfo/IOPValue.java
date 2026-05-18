@@ -2,8 +2,8 @@ package structures.unidadesInfo;
 
 public class IOPValue {
 
-    public String IOP_mmHg;
-    public String IOP_Pa;
+    public String IOP_mmHg = new String();
+    public String IOP_Pa = new String();
     
     public IOPValue (String IOP_mmHg, String IOP_Pa)
     {
