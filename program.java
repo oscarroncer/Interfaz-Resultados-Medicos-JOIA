@@ -6,7 +6,6 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamReader;
@@ -264,11 +263,55 @@ public class Program {
                                 
                                 case "ConfidenceIndex": listaCurrent.ConfidenceIndex = texto;
                                 break;
-                               
 
+                                case "Param1":
 
-                                
+                                    switch(ladoOjoCurrent)
+                                    {
+                                        case "R":
+                                            superPaciente.rightEye.correctedIOP.Param1 = texto;
+                                        break;
+                                        case "L":
+                                            superPaciente.leftEye.correctedIOP.Param1 = texto;
+                                        break;
 
+                                    default:
+                                        break;
+                                    }
+                                break;
+
+                                case "Param2":
+
+                                    switch(ladoOjoCurrent)
+                                    {
+                                        case "R":
+                                            superPaciente.rightEye.correctedIOP.Param2 = texto;
+                                        break;
+                                        case "L":
+                                            superPaciente.leftEye.correctedIOP.Param2 = texto;
+                                        break;
+
+                                    default:
+                                        break;
+                                    }
+                                break;
+
+                                case "CCT":
+
+                                switch(ladoOjoCurrent)
+                                {
+                                    case "R":
+                                        superPaciente.rightEye.correctedIOP.CCT = texto;
+                                    break;
+                                    case "L":
+                                        superPaciente.leftEye.correctedIOP.CCT = texto;
+                                    break;
+
+                                default:
+                                    break;
+                                }
+
+                                break;
 
                             }
                         }
@@ -283,61 +326,89 @@ public class Program {
                         {
                              pruebaCurrent = "";
                         }
-                        else if( "R".equals(reader.getLocalName()) || "L".equals(reader.getLocalName()) )
+                        
+                        if( "R".equals(reader.getLocalName()) || "L".equals(reader.getLocalName()) )
                         {
                             switch (pruebaCurrent)
                             {
                                 case "TM":
                                     
-                                    if ("R".equals(reader.getLocalName()))
+                                    if ("R".equals(reader.getLocalName())) //en caso de cada ojo asignamos y borramos
                                     {
                                         superPaciente.rightEye.TM.lecturas = lecturasCurrent;
+                                        lecturasCurrent = null;
                                     }
                                     else if ("L".equals(reader.getLocalName()))
                                     {
                                         superPaciente.leftEye.TM.lecturas = lecturasCurrent;
+                                        lecturasCurrent = null;
                                     }
                                 
                                 break;
 
-                                case "CorrectedIOP":
-
-                                    if ("R".equals(reader.getLocalName()))
-                                    {
-
-                                    }
-                                    else if ("L".equals(reader.getLocalName()))
-                                    {
-                                        
-                                    }
-                                
                             }
 
                             ladoOjoCurrent = "";
                         }
-                        else if ("List".equals(reader.getLocalName()))
+                        
+                        if ("List".equals(reader.getLocalName()))
                         {
                             lecturasCurrent.add(listaCurrent);
 
                             listaCurrent = null;
                         }
-                        else if ("Corrected".equals(reader.getLocalName()) 
-                            || "Measured".equals(reader.getLocalName()))
+                        
+                        if ("Corrected".equals(reader.getLocalName()))
                         {
+                            switch(ladoOjoCurrent)
+                            {
+                                case "R":
+                                    
+                                    superPaciente.rightEye.correctedIOP.corrected = IOPValueCurrent;
+                                
+                                break;
+
+                                case "L":
+
+                                    superPaciente.rightEye.correctedIOP.corrected = IOPValueCurrent;
+                                
+                                break;
+
+                                default:
+
+                                break;
+                            }
+                            
                             IOPValueCurrent = null;
                         }
 
-                        break;                 
-                        
+                        if ("Measured".equals(reader.getLocalName()))
+                        {
+                            switch(ladoOjoCurrent)
+                                    {
+                                        case "R":
+                                            superPaciente.rightEye.correctedIOP.measured = IOPValueCurrent;
+                                        break;
+                                        case "L":
+                                            superPaciente.leftEye.correctedIOP.measured = IOPValueCurrent;
+                                        break;
+
+                                    default:
+                                        break;
+                                    }
+                        }
+                 
+                    break;
+
                     default:
-                        break;
+                    break;
                 }
             }
 
         }catch (Exception e){
             System.err.println("error en linea 72: " + e);
         }
-        finally{
+        finally{   //cerramos el reader en finally para que se ejecute 100%
 
             if (reader != null){
                 try {
@@ -348,7 +419,6 @@ public class Program {
                 
             }
             
-            // aqui se podria cerrar el reader, pero no se como hacerlo sin que me de error, porque el reader es un objeto local de try
         }
 
         System.out.println("common = "+ superPaciente.common.toString());
