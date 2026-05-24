@@ -109,13 +109,11 @@ public class Program {
 
         String currentElement = "";
         String pruebaCurrent = "";
-        String ladoOjoCurrent = "";
-        String tipoIOPValue = "";
-        
+        String ladoOjoCurrent = "";        
 
         ArrayList<TMList> lecturasCurrent = new ArrayList<TMList>();
-        TMList listaCurrent = null;
-        IOPValue IOPValueCurrent = null;
+        TMList listaCurrent = new TMList("","","");
+        IOPValue IOPValueCurrent = new IOPValue("","");
 
         //Common common = new Common();
         //Patient patient = new Patient(); 
@@ -321,12 +319,14 @@ public class Program {
                         currentElement = "";   //ponemos la variable currentElement a "" para volver a ejecutar el bucle en
                                                 //con el siguiente
                         
-                        // en este condicional estamos haciendo todas las situaciones donde hay que resetear las variables de entorno
+                        //en este condicional estamos haciendo todas las situaciones donde hay que resetear las variables de entorno
                         if ("TM".equals(reader.getLocalName()) || "CorrectedIOP".equals(reader.getLocalName()))
                         {
                              pruebaCurrent = "";
                         }
                         
+                        //en este condicional, comprobamos si cierra ojo, si lo cierra comprueba la prueba y asigna
+                        //segun la prueba y el lado (conocido gracias a saber con el reader el lado "R" o "L")
                         if( "R".equals(reader.getLocalName()) || "L".equals(reader.getLocalName()) )
                         {
                             switch (pruebaCurrent)
@@ -405,8 +405,15 @@ public class Program {
                 }
             }
 
-        }catch (Exception e){
-            System.err.println("error en linea 72: " + e);
+        }
+        catch (Exception e)
+        {
+            
+        //gracias a esto controlamos los errores y sabemos en que fallan, luego se localiza el cuando
+        System.err.println("EXCEPTION: "+ e.getClass().getName());   
+        System.err.println("MESSAGE: "+ e.getMessage());
+        
+
         }
         finally{   //cerramos el reader en finally para que se ejecute 100%
 
@@ -424,8 +431,7 @@ public class Program {
         System.out.println("common = "+ superPaciente.common.toString());
         System.out.println("patient = "+ superPaciente.patient.toString());
 
-
-
+    
 
     }
     
