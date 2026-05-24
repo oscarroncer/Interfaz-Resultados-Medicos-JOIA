@@ -12,4 +12,12 @@ public class SuperPaciente {
     public Eye leftEye = new Eye();
     public Eye rightEye = new Eye();
 
+public String toString()
+    {
+        return "Paciente: " + patient.toString() + "\n" +
+               "Common: " + common.toString() + "\n" +
+               "Ojo izquierdo: " + leftEye.toString() + "\n" +
+               "Ojo derecho: " + rightEye.toString() + "\n";
+
+    }        
 }

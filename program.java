@@ -39,7 +39,8 @@ public class Program {
 
                 for (File file : listadoFilePaths) {
 
-                    XMLParser(file);
+                   SuperPaciente superPaciente = XMLParser(file);
+                   System.out.println("Super paciente creado: " + superPaciente.toString());
                 }
                 
             }
@@ -99,7 +100,8 @@ public class Program {
     }
 
     //va a haber que ponerle que se ejecute automaticamente mientras en el archivo haya cosas
-    private static void XMLParser(File fileName){
+    private static SuperPaciente XMLParser(File fileName)
+    {
 
         //instanciamos un objeto super paciente donde guardaremos toda la informacion del archivo, para
         // tratarlo como objeto superPaciente al enviarlo al frontend, 
@@ -126,10 +128,10 @@ public class Program {
         } catch (Exception e) {
             System.err.println("Error creando el XMLStreamReader: " + e.getMessage());
             e.printStackTrace();
-            return; // salimos del método si no podemos crear el reader
+            return null; // salgo del metodo si no puedo crear el reader, porque no puedo seguir sin el}
         }
-        
-        try {
+        try 
+        {
             
         //LOGICA 
 
@@ -160,11 +162,22 @@ public class Program {
                         if ("L".equals(reader.getLocalName())){ladoOjoCurrent = "L";}
 
                         //iniciamos TMList si vemos una lista
-                        if ("List".equals(reader.getLocalName())){listaCurrent = new TMList("","","");}
+                        if ("List".equals(reader.getLocalName()))
+                        {
+
+                            listaCurrent = new TMList("","","");
+                            lecturasCurrent = new ArrayList<TMList>();
+
+                        }
+
+                        if ("Average".equals(reader.getLocalName())){listaCurrent = new TMList("","","");}
                         
                         //iniciamos IOPValue si vemos que hay algun caso en el que se use
                         if ("Corrected".equals(reader.getLocalName()) 
-                            || "Measured".equals(reader.getLocalName())){IOPValueCurrent = new IOPValue("","");}
+                            || "Measured".equals(reader.getLocalName()))
+                        {
+                            IOPValueCurrent = new IOPValue("","");
+                        }
 
                     break;
                     
@@ -230,8 +243,6 @@ public class Program {
 
                                 case "DOB": superPaciente.patient.DOB = texto;
                                 break;
-
-                                //Aqui Guardamos todo lo de TMList
 
                                 case "IOP_mmHg": 
 
@@ -357,6 +368,27 @@ public class Program {
 
                             listaCurrent = null;
                         }
+
+                        if ("Average".equals(reader.getLocalName()))
+                        {
+                            switch(ladoOjoCurrent)
+                            {
+                                case "R":
+                                    
+                                    superPaciente.rightEye.TM.media = listaCurrent;
+                                
+                                break;
+
+                                case "L":
+
+                                    superPaciente.rightEye.TM.media = listaCurrent;
+
+                                break;
+                            }
+                            
+                            IOPValueCurrent = null;
+                        }
+
                         
                         if ("Corrected".equals(reader.getLocalName()))
                         {
@@ -372,10 +404,6 @@ public class Program {
 
                                     superPaciente.rightEye.correctedIOP.corrected = IOPValueCurrent;
                                 
-                                break;
-
-                                default:
-
                                 break;
                             }
                             
@@ -406,33 +434,35 @@ public class Program {
             }
 
         }
-        catch (Exception e)
+        catch (Exception error)
         {
-            
-        //gracias a esto controlamos los errores y sabemos en que fallan, luego se localiza el cuando
-        System.err.println("EXCEPTION: "+ e.getClass().getName());   
-        System.err.println("MESSAGE: "+ e.getMessage());
-        
+
+        //gracias a esto controlamos los errores y sabemos en que fallan, luego se localiza el 
+        //cuando
+        System.err.println("EXCEPTION: "+ error.getClass().getName());   
+        System.err.println("MESSAGE: "+ error.getMessage());
+        error.printStackTrace(); 
 
         }
-        finally{   //cerramos el reader en finally para que se ejecute 100%
+        finally
+        {   //cerramos el reader en finally para que se ejecute 100%
 
             if (reader != null){
                 try {
                     reader.close();
-                } catch (XMLStreamException e) {
-                    System.err.println("Error cerrando el reader: " + e.getMessage());
+                } catch (XMLStreamException err) {
+                    System.err.println("Error cerrando el reader: " + err.getMessage());
                 }
                 
             }
             
         }
-
-        System.out.println("common = "+ superPaciente.common.toString());
-        System.out.println("patient = "+ superPaciente.patient.toString());
-
-    
+            
+    return superPaciente; // devolvemos el super paciente con toda la informacion del XML, para luego enviarlo al frontend
 
     }
-    
+
 }
+
+
+

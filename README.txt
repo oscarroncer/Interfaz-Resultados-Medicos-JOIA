@@ -4,5 +4,3 @@ aprendizage consolidado, no parches ajenos, prefiero peor codigo própio que mej
 
 Lo que busco con este proyecto es aprender en un lenguaje con tipado explicito y que me obliga a entender bien POO.  Busco mejorar mis habilidades como persona que pronto estará en un puesto tech por como se maneja, no 
 por como maneja la IA.
-
-La carla es la mas guapa de todas. Esto es nuevo.
