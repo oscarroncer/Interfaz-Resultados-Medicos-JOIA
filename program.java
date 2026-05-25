@@ -1,20 +1,20 @@
 
 import java.io.File;
+import java.nio.file.Files;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
-import javax.xml.stream.XMLStreamReader;
 
 import structures.SuperPaciente;
 import structures.pruebas.CorrectedIOP;
 import structures.unidadesInfo.TMList;
 import structures.unidadesInfo.IOPValue;
 
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -25,7 +25,8 @@ public class Program {
     // el dir esta vacio o no
     public static void main(String[] args){
         
-        Path dir = Paths.get("C:\\Users\\oscar\\Desktop\\PROYECTOS\\PROYECTOS PRODUCION\\PARSER_XML\\XML");
+        
+        Path dir = pathExtractor("path.txt");
         
         // nos lanzamos a ver si podemos ejecutar el codigo con un try catch
         try {
@@ -54,6 +55,33 @@ public class Program {
         }
 
     }
+
+
+    //devuelvo el contenido de un directorio recibido String en formato Path
+    private static Path pathExtractor(String path) {
+
+        Path pathDef = null;
+        try 
+        {
+            Path pathtxt = Paths.get(path);
+            String content = Files.readString(pathtxt);
+
+            pathDef = Paths.get(content);
+
+            
+
+        } 
+        catch (Exception e) 
+        {
+            System.err.println("Error al buscar un path válido: "+ e);
+        }
+        
+        return pathDef;
+        
+    }
+
+
+
 
     // hacemos un proceso para saber si el path tiene algo, tengo que incorporar buenas practicas pero no
     // acabo de entender asi

@@ -4,3 +4,7 @@ aprendizage consolidado, no parches ajenos, prefiero peor codigo própio que mej
 
 Lo que busco con este proyecto es aprender en un lenguaje con tipado explicito y que me obliga a entender bien POO.  Busco mejorar mis habilidades como persona que pronto estará en un puesto tech por como se maneja, no 
 por como maneja la IA.
+
+TO DO LIST: 
+
+-acabar el metodo que saca el path y devuelve un objeto path. Dandole valor a dir con ese objeto path.
