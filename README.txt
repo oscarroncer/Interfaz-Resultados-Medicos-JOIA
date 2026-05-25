@@ -4,3 +4,5 @@ aprendizage consolidado, no parches ajenos, prefiero peor codigo própio que mej
 
 Lo que busco con este proyecto es aprender en un lenguaje con tipado explicito y que me obliga a entender bien POO.  Busco mejorar mis habilidades como persona que pronto estará en un puesto tech por como se maneja, no 
 por como maneja la IA.
+
+Aprenderemos tambien a usar github de manera profesional, empezaremos con el entendimiento de las ramas y de la utilización de estas para cada feature.
