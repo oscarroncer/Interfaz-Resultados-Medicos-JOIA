@@ -179,7 +179,8 @@ public class Program {
             while (reader.hasNext()) {
 
                 // se maneja el tipo de evento con numeros en esta libreria, guardamos ese numero para saber que tipo de evento es
-                int evento = reader.next(); 
+                int evento = reader.next();
+                
 
                 // ESTE SWITCH VA A INDETIFICAR EL TIPO DE EVENTO Y ACTUARA SEGUN 
                 switch (evento) {
@@ -187,22 +188,30 @@ public class Program {
 
                         currentElement =  reader.getLocalName(); //en este caso guardo el START_ELEMENT en current element, 
                         
+
                         //cascada de condicionales para las variables de entorno
                         //pruebaCurrent
                         if ("TM".equals(reader.getLocalName())){pruebaCurrent = "TM";}
                         if ("CorrectedIOP".equals(reader.getLocalName())){pruebaCurrent = "CorrectedIOP";}
 
                         //ladoOjoCurrent
-                        if ("R".equals(reader.getLocalName())){ladoOjoCurrent = "R";}
-                        if ("L".equals(reader.getLocalName())){ladoOjoCurrent = "L";}
+                        if ("R".equals(reader.getLocalName()))
+                        {
+                            ladoOjoCurrent = "R";
+                            lecturasCurrent = new ArrayList<TMList>();
+                        }
+                        
+                        if ("L".equals(reader.getLocalName()))
+                        {
+                            ladoOjoCurrent = "L";
+                            lecturasCurrent = new ArrayList<TMList>();
+                        }
 
                         //iniciamos TMList si vemos una lista
                         if ("List".equals(reader.getLocalName()))
                         {
-
                             listaCurrent = new TMList("","","");
-                            lecturasCurrent = new ArrayList<TMList>();
-
+                            
                         }
 
                         if ("Average".equals(reader.getLocalName())){listaCurrent = new TMList("","","");}
@@ -296,7 +305,9 @@ public class Program {
                                 
                                     switch (pruebaCurrent)
                                     {
-                                        case "TM": listaCurrent.IOP_Pa = texto;
+                                        case "TM": 
+                                        listaCurrent.IOP_Pa = texto;
+                                        System.out.println(listaCurrent.toString());
                                         break;
 
                                         case "CorrectedIOP" : IOPValueCurrent.IOP_Pa = texto;
@@ -393,8 +404,10 @@ public class Program {
                                 break;
 
                             }
-
+                            
                             ladoOjoCurrent = "";
+                            
+
                         }
                         
                         if ("List".equals(reader.getLocalName()))
