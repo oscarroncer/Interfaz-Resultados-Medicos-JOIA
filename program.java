@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import structures.SuperPaciente;
-import structures.pruebas.CorrectedIOP;
 import structures.unidadesInfo.TMList;
 import structures.unidadesInfo.IOPValue;
 
@@ -23,30 +22,32 @@ public class Program {
 
     // en este metodo voy a hacer el flujo del programa, externalizando en funciones el parse, y la comprobacion de si 
     // el dir esta vacio o no
-    public static void main(String[] args){
+    public static void main(String[] args) 
+    {
         
         
         Path dir = pathExtractor("path.txt");
         
         // nos lanzamos a ver si podemos ejecutar el codigo con un try catch
-        try {
+        try
+        {
 
             // antes de ejecutar veremos si en el path hay algo, si no, no entramos en el programa, no vale la pena si no hay nada
             if (pathFull(dir)){    // si recibo true entro y ejecutare el parser, SINTAXIS: lo mismo que *== true
 
                 File[] listadoFilePaths = getFileListPaths(dir); // iterarems por los paths de este array parseando todos los archivos PREGUNTAR SI SE QUIERE ASI
-                System.out.println("ha entrado donde empezaremos el parser ficheros = "+ Integer.toString(listadoFilePaths.length));
+                
                 //ejecutamos funcion del parser para cada file del array, iterando con un for each
-
-                for (File file : listadoFilePaths) {
-
+                for (File file : listadoFilePaths) 
+                {
                    SuperPaciente superPaciente = XMLParser(file);
                    System.out.println("Super paciente creado: " + superPaciente.toString());
                 }
                 
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) 
+        {
 
             System.err.println("Error de E/S comprobando la carpeta: " + e.getMessage());
             e.printStackTrace();
@@ -60,15 +61,17 @@ public class Program {
     //devuelvo el contenido de un directorio recibido String en formato Path
     private static Path pathExtractor(String path) {
 
+        //inicializamos aqui para poder hacer return, tiene que ser valor null porque sino al no estar
+        //inicializada la variable return da error.
+
         Path pathDef = null;
         try 
         {
             Path pathtxt = Paths.get(path);
-            String content = Files.readString(pathtxt);
+            String content = Files.readString(pathtxt);         //este comando devuelve el string
 
             pathDef = Paths.get(content);
 
-            
 
         } 
         catch (Exception e) 
@@ -88,22 +91,25 @@ public class Program {
     private static boolean pathFull(Path dir) throws IOException {
 
         // compruebo si hay algo en el path y devuelvo true
-        if (Files.exists(dir) && Files.isDirectory(dir)) {
+        if (Files.exists(dir) && Files.isDirectory(dir)) 
+        {
             
             DirectoryStream<Path> stream = Files.newDirectoryStream(dir);
             System.out.println("directorio existe");
 
-            if (stream.iterator().hasNext()){
-                
+            if (stream.iterator().hasNext())
+            {
                 stream.close();
                 return true;
-                }
-            else{
-            stream.close();
-            return false;
+            }
+            else
+            {
+                stream.close();
+                return false;
             }
         }
-        else{
+        else
+        {
             return false;
         }
     }
@@ -115,7 +121,8 @@ public class Program {
 
         File[] filePaths = null; // este array lo inicializo fuera para que a devolverlo no me de error en el return
                                  // por tener el array interno en el try{}
-        try {
+        try 
+        {
         
         filePaths = carpeta.listFiles();
         
