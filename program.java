@@ -25,7 +25,7 @@ public class Program {
     // el dir esta vacio o no
     public static void main(String[] args){
         
-        Path dir = Paths.get("C:\\Users\\oscar\\Desktop\\PROYECTOS\\PROYECTOS PRODUCION\\PARSER_XML\\XML");
+        Path dir = Paths.get("C:\\Users\\oscar\\Desktop\\PROYECTOS\\PROYECTOS PRODUCION\\Interfaz-Resultados-Medicos-JOIA\\XML\\CT1P.xml");
         
         // nos lanzamos a ver si podemos ejecutar el codigo con un try catch
         try {
