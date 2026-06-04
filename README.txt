@@ -9,4 +9,4 @@ En este proyecto aprenderemos a tocar el debugger de una manera más profunda, t
 pero no saca un resultado optimo, hay datos que los oprime, y hay otros que no tiene las ejecuciones que deberia tener. 
 Pongo el ejemplo de las listas, al mostrar el resultado de las lecturas muestra uno por ojo. 
 
-Prueba de funcionalidad, en el siguiente commit quitaremos esta linea.
+Prueba de funcionalidad, en el siguiente commit quitaremos esta linea. 
