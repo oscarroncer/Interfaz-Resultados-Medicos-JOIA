@@ -27,6 +27,8 @@ public class Program {
         
         
         Path dir = pathExtractor("path.txt");
+
+
         
         // nos lanzamos a ver si podemos ejecutar el codigo con un try catch
         try
