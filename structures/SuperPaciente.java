@@ -12,6 +12,7 @@ public class SuperPaciente {
     public Eye leftEye = new Eye();
     public Eye rightEye = new Eye();
 
+@Override
 public String toString()
     {
         return "Paciente: " + patient.toString() + "\n" +

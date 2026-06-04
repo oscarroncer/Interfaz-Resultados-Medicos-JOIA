@@ -1,20 +1,19 @@
 
 import java.io.File;
+import java.nio.file.Files;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import javax.xml.stream.XMLStreamReader;
-
 import structures.SuperPaciente;
-import structures.pruebas.CorrectedIOP;
 import structures.unidadesInfo.TMList;
 import structures.unidadesInfo.IOPValue;
 
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -23,29 +22,34 @@ public class Program {
 
     // en este metodo voy a hacer el flujo del programa, externalizando en funciones el parse, y la comprobacion de si 
     // el dir esta vacio o no
-    public static void main(String[] args){
+    public static void main(String[] args) 
+    {
         
-        Path dir = Paths.get("C:\\Users\\oscar\\Desktop\\PROYECTOS\\PROYECTOS PRODUCION\\Interfaz-Resultados-Medicos-JOIA\\XML\\CT1P.xml");
+        
+        Path dir = pathExtractor("path.txt");
+
+
         
         // nos lanzamos a ver si podemos ejecutar el codigo con un try catch
-        try {
+        try
+        {
 
             // antes de ejecutar veremos si en el path hay algo, si no, no entramos en el programa, no vale la pena si no hay nada
             if (pathFull(dir)){    // si recibo true entro y ejecutare el parser, SINTAXIS: lo mismo que *== true
 
                 File[] listadoFilePaths = getFileListPaths(dir); // iterarems por los paths de este array parseando todos los archivos PREGUNTAR SI SE QUIERE ASI
-                System.out.println("ha entrado donde empezaremos el parser ficheros = "+ Integer.toString(listadoFilePaths.length));
+                
                 //ejecutamos funcion del parser para cada file del array, iterando con un for each
-
-                for (File file : listadoFilePaths) {
-
+                for (File file : listadoFilePaths) 
+                {
                    SuperPaciente superPaciente = XMLParser(file);
                    System.out.println("Super paciente creado: " + superPaciente.toString());
                 }
                 
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) 
+        {
 
             System.err.println("Error de E/S comprobando la carpeta: " + e.getMessage());
             e.printStackTrace();
@@ -55,27 +59,60 @@ public class Program {
 
     }
 
+
+    //devuelvo el contenido de un directorio recibido String en formato Path
+    private static Path pathExtractor(String path) {
+
+        //inicializamos aqui para poder hacer return, tiene que ser valor null porque sino al no estar
+        //inicializada la variable return da error.
+
+        Path pathDef = null;
+        
+        try 
+        {
+            Path pathtxt = Paths.get(path);
+            String content = Files.readString(pathtxt);         //este comando devuelve el string
+
+            pathDef = Paths.get(content);
+
+
+        } 
+        catch (Exception e) 
+        {
+            System.err.println("Error al buscar un path válido: "+ e);
+        }
+        
+        return pathDef;
+        
+    }
+
+
+
+
     // hacemos un proceso para saber si el path tiene algo, tengo que incorporar buenas practicas pero no
     // acabo de entender asi
     private static boolean pathFull(Path dir) throws IOException {
 
         // compruebo si hay algo en el path y devuelvo true
-        if (Files.exists(dir) && Files.isDirectory(dir)) {
+        if (Files.exists(dir) && Files.isDirectory(dir)) 
+        {
             
             DirectoryStream<Path> stream = Files.newDirectoryStream(dir);
             System.out.println("directorio existe");
 
-            if (stream.iterator().hasNext()){
-                
+            if (stream.iterator().hasNext())
+            {
                 stream.close();
                 return true;
-                }
-            else{
-            stream.close();
-            return false;
+            }
+            else
+            {
+                stream.close();
+                return false;
             }
         }
-        else{
+        else
+        {
             return false;
         }
     }
@@ -87,7 +124,8 @@ public class Program {
 
         File[] filePaths = null; // este array lo inicializo fuera para que a devolverlo no me de error en el return
                                  // por tener el array interno en el try{}
-        try {
+        try 
+        {
         
         filePaths = carpeta.listFiles();
         
@@ -144,7 +182,8 @@ public class Program {
             while (reader.hasNext()) {
 
                 // se maneja el tipo de evento con numeros en esta libreria, guardamos ese numero para saber que tipo de evento es
-                int evento = reader.next(); 
+                int evento = reader.next();
+                
 
                 // ESTE SWITCH VA A INDETIFICAR EL TIPO DE EVENTO Y ACTUARA SEGUN 
                 switch (evento) {
@@ -152,22 +191,30 @@ public class Program {
 
                         currentElement =  reader.getLocalName(); //en este caso guardo el START_ELEMENT en current element, 
                         
+
                         //cascada de condicionales para las variables de entorno
                         //pruebaCurrent
                         if ("TM".equals(reader.getLocalName())){pruebaCurrent = "TM";}
                         if ("CorrectedIOP".equals(reader.getLocalName())){pruebaCurrent = "CorrectedIOP";}
 
                         //ladoOjoCurrent
-                        if ("R".equals(reader.getLocalName())){ladoOjoCurrent = "R";}
-                        if ("L".equals(reader.getLocalName())){ladoOjoCurrent = "L";}
+                        if ("R".equals(reader.getLocalName()))
+                        {
+                            ladoOjoCurrent = "R";
+                            lecturasCurrent = new ArrayList<TMList>();
+                        }
+                        
+                        if ("L".equals(reader.getLocalName()))
+                        {
+                            ladoOjoCurrent = "L";
+                            lecturasCurrent = new ArrayList<TMList>();
+                        }
 
                         //iniciamos TMList si vemos una lista
                         if ("List".equals(reader.getLocalName()))
                         {
-
                             listaCurrent = new TMList("","","");
-                            lecturasCurrent = new ArrayList<TMList>();
-
+                            
                         }
 
                         if ("Average".equals(reader.getLocalName())){listaCurrent = new TMList("","","");}
@@ -261,7 +308,9 @@ public class Program {
                                 
                                     switch (pruebaCurrent)
                                     {
-                                        case "TM": listaCurrent.IOP_Pa = texto;
+                                        case "TM": 
+                                        listaCurrent.IOP_Pa = texto;
+                                        System.out.println(listaCurrent.toString());
                                         break;
 
                                         case "CorrectedIOP" : IOPValueCurrent.IOP_Pa = texto;
@@ -285,6 +334,8 @@ public class Program {
                                         break;
 
                                     default:
+
+                                        
                                         break;
                                     }
                                 break;
@@ -358,8 +409,10 @@ public class Program {
                                 break;
 
                             }
-
+                            
                             ladoOjoCurrent = "";
+                            
+
                         }
                         
                         if ("List".equals(reader.getLocalName()))
